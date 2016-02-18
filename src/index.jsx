@@ -1,10 +1,16 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import particlesApp from './reducers';
+import Particles from './components/Particles';
 
-import Particles from './Particles';
+let store = createStore(particlesApp);
 
 ReactDOM.render(
-    <Particles width="800" height="600" />,
+    <Provider store={store}>
+        <Particles width="800" height="600" />
+    </Provider>,
     document.querySelectorAll('.particles')[0]
 );
