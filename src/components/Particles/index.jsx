@@ -1,13 +1,22 @@
 
-import React, { Component } from 'react';
+import React, { PropTypes } from 'react';
 
-class Particles extends Component {
-    render() {
-        return (
-            <svg width={this.props.width} height={this.props.height}>
-            </svg>
-        );
-    }
-}
+import Particle from './Particle';
+
+const Particles = ({ particles }) => (
+    <g>{particles.map(particle =>
+        <Particle key={particle.id}
+                  {...particle} />
+        )}
+    </g>
+);
+
+Particles.propTypes = {
+    particles: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        x: PropTypes.number.isRequired,
+        y: PropTypes.number.isRequired
+    }).isRequired).isRequired
+};
 
 export default Particles;

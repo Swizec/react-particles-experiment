@@ -3,14 +3,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+
 import particlesApp from './reducers';
-import Particles from './components/Particles';
+import App from './components';
+import { tickTime } from './actions';
 
 let store = createStore(particlesApp);
 
+let unsubscribe = store.subscribe(() =>
+    console.log(store.getState())
+);
+
+store.dispatch(tickTime());
+
+unsubscribe();
+
 ReactDOM.render(
     <Provider store={store}>
-        <Particles width="800" height="600" />
+        <App />
     </Provider>,
-    document.querySelectorAll('.particles')[0]
+    document.querySelectorAll('.container')[0]
 );
