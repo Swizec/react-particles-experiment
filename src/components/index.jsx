@@ -1,11 +1,12 @@
 
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
+import React, { PropTypes, Component } from 'react';
 
 import Particles from './Particles';
+import { tickTime } from '../actions';
 
-const App = ({svgWidth, svgHeight}) => (
-    <div>
+
+const App = ({svgWidth, svgHeight, startTicker}) => (
+    <div onClick={e => startTicker()}>
         <h1>Click anywhere</h1>
         <svg width={svgWidth} height={svgHeight}>
 
@@ -15,16 +16,8 @@ const App = ({svgWidth, svgHeight}) => (
 
 App.propTypes = {
     svgWidth: PropTypes.number.isRequired,
-    svgHeight: PropTypes.number.isRequired
+    svgHeight: PropTypes.number.isRequired,
+    startTicker: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
-    return {
-        svgWidth: state.svgWidth,
-        svgHeight: state.svgHeight
-    };
-};
-
-export default connect(
-    mapStateToProps
-)(App);
+export default App;

@@ -5,22 +5,15 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import particlesApp from './reducers';
-import App from './components';
-import { tickTime } from './actions';
+import AppContainer from './containers/AppContainer';
 
 let store = createStore(particlesApp);
 
-let unsubscribe = store.subscribe(() =>
-    console.log(store.getState())
-);
-
-store.dispatch(tickTime());
-
-unsubscribe();
+console.log(store);
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <AppContainer />
     </Provider>,
     document.querySelectorAll('.container')[0]
 );
