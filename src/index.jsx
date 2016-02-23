@@ -9,8 +9,6 @@ import AppContainer from './containers/AppContainer';
 
 let store = createStore(particlesApp);
 
-console.log(store);
-
 ReactDOM.render(
     <Provider store={store}>
         <AppContainer />

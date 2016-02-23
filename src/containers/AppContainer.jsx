@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
 import App from '../components';
-import { tickTime, tickerStarted } from '../actions';
+import { tickTime, tickerStarted, startParticles, endParticles, createParticle } from '../actions';
 
 class AppContainer extends Component {
     componentDidMount() {
@@ -28,9 +28,25 @@ class AppContainer extends Component {
         };
 
         if (!store.getState().tickerStarted) {
+            console.log("Starting ticker");
             store.dispatch(tickerStarted());
             ticker();
         }
+    }
+
+    startParticles() {
+        const { store } = this.context;
+        store.dispatch(startParticles());
+    }
+
+    endParticles() {
+        const { store } = this.context;
+        store.dispatch(endParticles());
+    }
+
+    createParticle(x, y) {
+        const { store } = this.context;
+        store.dispatch(createParticle(x, y));
     }
 
     render() {
@@ -38,7 +54,12 @@ class AppContainer extends Component {
         const state = store.getState();
 
         return (
-            <App {...state} startTicker={::this.startTicker}/>
+            <App {...state}
+                 startTicker={::this.startTicker}
+                 startParticles={::this.startParticles}
+                 endParticles={::this.endParticles}
+                 createParticle={::this.createParticle}
+            />
         );
     }
 };
