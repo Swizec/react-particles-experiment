@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
 import App from '../components';
-import { tickTime, tickerStarted, startParticles, endParticles, createParticle } from '../actions';
+import { tickTime, tickerStarted, startParticles, stopParticles, updateMousePos, createParticle } from '../actions';
 
 class AppContainer extends Component {
     componentDidMount() {
@@ -22,7 +22,9 @@ class AppContainer extends Component {
 
         let ticker = () => {
             if (store.getState().tickerStarted) {
+                this.maybeCreateParticle();
                 store.dispatch(tickTime());
+
                 window.requestAnimationFrame(ticker);
             }
         };
@@ -39,14 +41,28 @@ class AppContainer extends Component {
         store.dispatch(startParticles());
     }
 
-    endParticles() {
+    stopParticles() {
         const { store } = this.context;
-        store.dispatch(endParticles());
+        store.dispatch(stopParticles());
     }
 
-    createParticle(x, y) {
+    updateMousePos(x, y) {
         const { store } = this.context;
-        store.dispatch(createParticle(x, y));
+        store.dispatch(updateMousePos(x, y));
+    }
+
+    maybeCreateParticle() {
+        const { store } = this.context;
+        const state = store.getState();
+        const [x, y] = state.mousePos;
+
+        if (state.generateParticles) {
+            store.dispatch(createParticle({
+                id: state.particleIndex,
+                x: x,
+                y: y
+            }));
+        }
     }
 
     render() {
@@ -57,8 +73,8 @@ class AppContainer extends Component {
             <App {...state}
                  startTicker={::this.startTicker}
                  startParticles={::this.startParticles}
-                 endParticles={::this.endParticles}
-                 createParticle={::this.createParticle}
+                 stopParticles={::this.stopParticles}
+                 updateMousePos={::this.updateMousePos}
             />
         );
     }

@@ -11,21 +11,19 @@ class App extends Component {
 
         svg.on('mousedown', () => {
             this.props.startParticles();
-            this.props.createParticle();
+            this.props.updateMousePos();
         });
         svg.on('mousemove', () => {
-            this.createParticle();
+            this.updateMousePos();
         });
         svg.on('mouseup', () => {
-            this.props.endParticles();
+            this.props.stopParticles();
         });
     }
 
-    createParticle() {
-        if (this.props.generateParticles) {
-            let [x, y] = d3.mouse(this.refs.svg);
-            this.props.createParticle(x, y);
-        }
+    updateMousePos() {
+        let [x, y] = d3.mouse(this.refs.svg);
+        this.props.updateMousePos(x, y);
     }
 
     render() {
@@ -36,7 +34,7 @@ class App extends Component {
                  <svg width={this.props.svgWidth}
                       height={this.props.svgHeight}
                       ref="svg">
-
+                     <Particles particles={this.props.particles} />
                  </svg>
              </div>
         );
@@ -48,8 +46,8 @@ App.propTypes = {
     svgHeight: PropTypes.number.isRequired,
     startTicker: PropTypes.func.isRequired,
     startParticles: PropTypes.func.isRequired,
-    endParticles: PropTypes.func.isRequired,
-    createParticle: PropTypes.func.isRequired
+    stopParticles: PropTypes.func.isRequired,
+    updateMousePos: PropTypes.func.isRequired
 };
 
 export default App;

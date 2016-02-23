@@ -4,10 +4,12 @@ import particles from './particles';
 
 const initialState = {
     particles: [],
+    particleIndex: 0,
     svgWidth: 800,
     svgHeight: 600,
     tickerStarted: false,
-    generateParticles: false
+    generateParticles: false,
+    mousePos: [null, null]
 };
 
 function particlesApp(state = initialState, action) {
@@ -28,10 +30,13 @@ function particlesApp(state = initialState, action) {
             let newParticles = state.particles.slice(0);
             newParticles.push(action.particle);
 
-            console.log("creating", action);
-
             return Object.assign({}, state, {
-                particles: newParticles
+                particles: newParticles,
+                particleIndex: state.particleIndex+1
+            });
+        case 'UPDATE_MOUSE_POS':
+            return Object.assign({}, state, {
+                mousePos: [action.x, action.y]
             });
         default:
             return state;
