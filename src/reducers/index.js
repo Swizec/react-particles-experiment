@@ -3,8 +3,8 @@ import { combineReducers } from 'redux';
 
 import d3 from 'd3';
 
-const Gravity = 0.7,
-      randNormal = d3.random.normal(0.5, 1.5);
+const Gravity = 0.5,
+      randNormal = d3.random.normal(0.3, 2);
 
 const initialState = {
     particles: [],
@@ -48,13 +48,17 @@ function particlesApp(state = initialState, action) {
                 mousePos: [action.x, action.y]
             });
         case 'TIME_TICK':
-            let movedParticles = state.particles.map((p) => {
-                let [vx, vy] = p.vector;
-                p.x += vx;
-                p.y += vy;
-                p.vector[1] += Gravity;
-                return p;
-            });
+            let {svgWidth, svgHeight} = state,
+                movedParticles = state.particles
+                                      .filter((p) =>
+                                          !(p.y > svgHeight || p.x < 0 || p.x > svgWidth))
+                                      .map((p) => {
+                                          let [vx, vy] = p.vector;
+                                          p.x += vx;
+                                          p.y += vy;
+                                          p.vector[1] += Gravity;
+                                          return p;
+                                      });
             return Object.assign({}, state, {
                 particles: movedParticles
             });
