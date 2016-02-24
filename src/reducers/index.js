@@ -1,6 +1,11 @@
 
 import { combineReducers } from 'redux';
 
+import d3 from 'd3';
+
+const Gravity = 0.7,
+      randNormal = d3.random.normal(0.5, 1.5);
+
 const initialState = {
     particles: [],
     particleIndex: 0,
@@ -29,8 +34,8 @@ function particlesApp(state = initialState, action) {
             let newParticles = state.particles.slice(0),
                 particle = action.particle;
 
-            particle.vector = [particle.id%2 ? -1 : 1,
-                               1];
+            particle.vector = [particle.id%2 ? -randNormal() : randNormal(),
+                               -10];
 
             newParticles.unshift(action.particle);
 
@@ -47,6 +52,7 @@ function particlesApp(state = initialState, action) {
                 let [vx, vy] = p.vector;
                 p.x += vx;
                 p.y += vy;
+                p.vector[1] += Gravity;
                 return p;
             });
             return Object.assign({}, state, {
