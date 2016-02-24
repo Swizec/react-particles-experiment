@@ -1,6 +1,5 @@
 
 import { combineReducers } from 'redux';
-import particles from './particles';
 
 const initialState = {
     particles: [],
@@ -27,8 +26,13 @@ function particlesApp(state = initialState, action) {
                 generateParticles: false
             });
         case 'CREATE_PARTICLE':
-            let newParticles = state.particles.slice(0);
-            newParticles.push(action.particle);
+            let newParticles = state.particles.slice(0),
+                particle = action.particle;
+
+            particle.vector = [particle.id%2 ? -1 : 1,
+                               1];
+
+            newParticles.unshift(action.particle);
 
             return Object.assign({}, state, {
                 particles: newParticles,
@@ -37,6 +41,16 @@ function particlesApp(state = initialState, action) {
         case 'UPDATE_MOUSE_POS':
             return Object.assign({}, state, {
                 mousePos: [action.x, action.y]
+            });
+        case 'TIME_TICK':
+            let movedParticles = state.particles.map((p) => {
+                let [vx, vy] = p.vector;
+                p.x += vx;
+                p.y += vy;
+                return p;
+            });
+            return Object.assign({}, state, {
+                particles: movedParticles
             });
         default:
             return state;

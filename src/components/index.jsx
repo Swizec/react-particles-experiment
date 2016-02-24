@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import d3 from 'd3';
 
 import Particles from './Particles';
+import Footer from './Footer';
 
 class App extends Component {
     componentDidMount() {
@@ -27,7 +28,6 @@ class App extends Component {
     }
 
     render() {
-        console.log(this.props.particles.length, this.props.generateParticles);
         return (
              <div onMouseDown={e => this.props.startTicker()}>
                  <h1>Click anywhere</h1>
@@ -36,6 +36,7 @@ class App extends Component {
                       ref="svg">
                      <Particles particles={this.props.particles} />
                  </svg>
+                 <Footer N={this.props.particles.length} />
              </div>
         );
     }
