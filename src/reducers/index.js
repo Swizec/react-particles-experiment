@@ -9,6 +9,7 @@ const Gravity = 0.5,
 const initialState = {
     particles: [],
     particleIndex: 0,
+    particlesPerTick: 3,
     svgWidth: 800,
     svgHeight: 600,
     tickerStarted: false,
@@ -32,16 +33,23 @@ function particlesApp(state = initialState, action) {
             });
         case 'CREATE_PARTICLE':
             let newParticles = state.particles.slice(0),
-                particle = action.particle;
+                particle = action.particle,
+                i;
 
-            particle.vector = [particle.id%2 ? -randNormal() : randNormal(),
+            for (i = 1; i < particle.N; i++) {
+                let particle = action.particle;
+                particle.id = particle.id+i;
+                particle.vector = [particle.id%2 ? -randNormal() : randNormal(),
                                -10];
 
-            newParticles.unshift(action.particle);
+                newParticles.unshift(action.particle);
+            }
+
+            console.log(newParticles.length, i, action);
 
             return Object.assign({}, state, {
                 particles: newParticles,
-                particleIndex: state.particleIndex+1
+                particleIndex: state.particleIndex+i+1
             });
         case 'UPDATE_MOUSE_POS':
             return Object.assign({}, state, {

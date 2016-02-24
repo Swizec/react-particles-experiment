@@ -22,7 +22,7 @@ class AppContainer extends Component {
 
         let ticker = () => {
             if (store.getState().tickerStarted) {
-                this.maybeCreateParticle();
+                this.maybeCreateParticles();
                 store.dispatch(tickTime());
 
                 window.requestAnimationFrame(ticker);
@@ -51,7 +51,7 @@ class AppContainer extends Component {
         store.dispatch(updateMousePos(x, y));
     }
 
-    maybeCreateParticle() {
+    maybeCreateParticles() {
         const { store } = this.context;
         const state = store.getState();
         const [x, y] = state.mousePos;
@@ -59,6 +59,7 @@ class AppContainer extends Component {
         if (state.generateParticles) {
             store.dispatch(createParticle({
                 id: state.particleIndex,
+                N: state.particlesPerTick,
                 x: x,
                 y: y
             }));
