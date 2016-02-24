@@ -10,8 +10,8 @@ class App extends Component {
         let svg = d3.select(this.refs.svg);
 
         svg.on('mousedown', () => {
+            this.updateMousePos();
             this.props.startParticles();
-            this.props.updateMousePos();
         });
         svg.on('mousemove', () => {
             this.updateMousePos();
@@ -29,7 +29,7 @@ class App extends Component {
     render() {
         console.log(this.props.particles.length, this.props.generateParticles);
         return (
-             <div onClick={e => this.props.startTicker()}>
+             <div onMouseDown={e => this.props.startTicker()}>
                  <h1>Click anywhere</h1>
                  <svg width={this.props.svgWidth}
                       height={this.props.svgHeight}
