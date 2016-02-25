@@ -33,11 +33,12 @@ class App extends Component {
 
     render() {
         return (
-            <div onMouseDown={e => this.props.startTicker()}>
+            <div onMouseDown={e => this.props.startTicker()} style={{overflow: 'hidden'}}>
                  <Header />
                  <svg width={this.props.svgWidth}
                       height={this.props.svgHeight}
-                      ref="svg">
+                      ref="svg"
+                      style={{background: 'rgba(124, 224, 249, .3)'}}>
                      <Particles particles={this.props.particles} />
                  </svg>
                  <Footer N={this.props.particles.length} />

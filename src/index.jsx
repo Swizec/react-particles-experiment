@@ -19,7 +19,7 @@ ReactDOM.render(
 );
 
 let onResize = function () {
-    store.dispatch(resizeScreen(window.innerWidth-5, window.innerHeight-5));
+    store.dispatch(resizeScreen(window.innerWidth, window.innerHeight));
 }
 onResize();
 
