@@ -2,7 +2,7 @@
 import React, { PropTypes } from 'react';
 
 const Footer = ({ N }) => (
-    <div>
+    <div style={{position: 'absolute', bottom: 0}} className="container">
         <strong>{N} particles</strong>
     </div>
 );

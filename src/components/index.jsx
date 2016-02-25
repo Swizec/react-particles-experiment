@@ -5,6 +5,7 @@ import d3 from 'd3';
 
 import Particles from './Particles';
 import Footer from './Footer';
+import Header from './Header';
 
 class App extends Component {
     componentDidMount() {
@@ -20,6 +21,9 @@ class App extends Component {
         svg.on('mouseup', () => {
             this.props.stopParticles();
         });
+        svg.on('mouseleave', () => {
+            this.props.stopParticles();
+        });
     }
 
     updateMousePos() {
@@ -29,8 +33,8 @@ class App extends Component {
 
     render() {
         return (
-             <div onMouseDown={e => this.props.startTicker()}>
-                 <h1>Click anywhere</h1>
+            <div onMouseDown={e => this.props.startTicker()}>
+                 <Header />
                  <svg width={this.props.svgWidth}
                       height={this.props.svgHeight}
                       ref="svg">

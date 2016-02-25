@@ -5,6 +5,7 @@ export const CREATE_PARTICLES = 'CREATE_PARTICLES';
 export const START_PARTICLES = 'START_PARTICLES';
 export const STOP_PARTICLES = 'STOP_PARTICLES';
 export const UPDATE_MOUSE_POS = 'UPDATE_MOUSE_POS';
+export const RESIZE_SCREEN = 'RESIZE_SCREEN';
 
 export function tickTime() {
     return {
@@ -44,5 +45,13 @@ export function updateMousePos(x, y) {
         type: UPDATE_MOUSE_POS,
         x: x,
         y: y
+    }
+}
+
+export function resizeScreen(width, height) {
+    return {
+        type: RESIZE_SCREEN,
+        width: width,
+        height: height
     }
 }

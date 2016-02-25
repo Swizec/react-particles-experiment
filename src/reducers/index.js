@@ -5,7 +5,7 @@ import d3 from 'd3';
 
 const Gravity = 0.5,
       randNormal = d3.random.normal(0.3, 2),
-      randNormal2 = d3.random.normal(0.6, 1.8);
+      randNormal2 = d3.random.normal(0.5, 1.8);
 
 const initialState = {
     particles: [],
@@ -44,7 +44,6 @@ function particlesApp(state = initialState, action) {
                 particle.vector = [particle.id%2 ? -randNormal() : randNormal(),
                                    -randNormal2()*3.3];
 
-                console.log(particle);
                 newParticles.unshift(particle);
             }
 
@@ -70,6 +69,11 @@ function particlesApp(state = initialState, action) {
                                       });
             return Object.assign({}, state, {
                 particles: movedParticles
+            });
+        case 'RESIZE_SCREEN':
+            return Object.assign({}, state, {
+                svgWidth: action.width,
+                svgHeight: action.height
             });
         default:
             return state;
