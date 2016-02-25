@@ -3,8 +3,6 @@
   "env": {
     "development": {
       "presets": ["react-hmre"]
-    },
-    "production": {
     }
   }
 }

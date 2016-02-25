@@ -18,11 +18,11 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false
-      }
-    })
+   // new webpack.optimize.UglifyJsPlugin({
+   //   compressor: {
+   //     warnings: true
+   //   }
+   // })
   ],
   resolve: {
     extensions: ['', '.js', '.jsx']
