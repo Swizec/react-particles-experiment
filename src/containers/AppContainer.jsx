@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
 import App from '../components';
-import { tickTime, tickerStarted, startParticles, stopParticles, updateMousePos, createParticle } from '../actions';
+import { tickTime, tickerStarted, startParticles, stopParticles, updateMousePos, createParticles } from '../actions';
 
 class AppContainer extends Component {
     componentDidMount() {
@@ -57,12 +57,7 @@ class AppContainer extends Component {
         const [x, y] = state.mousePos;
 
         if (state.generateParticles) {
-            store.dispatch(createParticle({
-                id: state.particleIndex,
-                N: state.particlesPerTick,
-                x: x,
-                y: y
-            }));
+            store.dispatch(createParticles(state.particlesPerTick, x, y));
         }
     }
 

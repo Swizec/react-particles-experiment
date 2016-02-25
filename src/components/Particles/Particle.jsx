@@ -2,7 +2,7 @@
 import React, { PropTypes } from 'react';
 
 const Particle = ({ x, y }) => (
-    <circle cx={x} cy={y} r="2" />
+    <circle cx={x} cy={y} r="1.8" />
 );
 
 Particle.propTypes = {

@@ -4,12 +4,13 @@ import { combineReducers } from 'redux';
 import d3 from 'd3';
 
 const Gravity = 0.5,
-      randNormal = d3.random.normal(0.3, 2);
+      randNormal = d3.random.normal(0.3, 2),
+      randNormal2 = d3.random.normal(0.6, 1.8);
 
 const initialState = {
     particles: [],
     particleIndex: 0,
-    particlesPerTick: 3,
+    particlesPerTick: 4,
     svgWidth: 800,
     svgHeight: 600,
     tickerStarted: false,
@@ -31,21 +32,21 @@ function particlesApp(state = initialState, action) {
             return Object.assign({}, state, {
                 generateParticles: false
             });
-        case 'CREATE_PARTICLE':
+        case 'CREATE_PARTICLES':
             let newParticles = state.particles.slice(0),
-                particle = action.particle,
                 i;
 
-            for (i = 1; i < particle.N; i++) {
-                let particle = action.particle;
-                particle.id = particle.id+i;
+            for (i = 0; i < action.N; i++) {
+                let particle = {id: state.particleIndex+i,
+                                x: action.x,
+                                y: action.y};
+
                 particle.vector = [particle.id%2 ? -randNormal() : randNormal(),
-                               -10];
+                                   -randNormal2()*3.3];
 
-                newParticles.unshift(action.particle);
+                console.log(particle);
+                newParticles.unshift(particle);
             }
-
-            console.log(newParticles.length, i, action);
 
             return Object.assign({}, state, {
                 particles: newParticles,

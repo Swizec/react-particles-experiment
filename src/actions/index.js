@@ -1,7 +1,7 @@
 
 export const TIME_TICK = 'TIME_TICK';
 export const TICKER_STARTED = 'TICKER_STARTED';
-export const CREATE_PARTICLE = 'CREATE_PARTICLE';
+export const CREATE_PARTICLES = 'CREATE_PARTICLES';
 export const START_PARTICLES = 'START_PARTICLES';
 export const STOP_PARTICLES = 'STOP_PARTICLES';
 export const UPDATE_MOUSE_POS = 'UPDATE_MOUSE_POS';
@@ -18,10 +18,12 @@ export function tickerStarted() {
     };
 }
 
-export function createParticle(particle) {
+export function createParticles(N, x, y) {
     return {
-        type: CREATE_PARTICLE,
-        particle: particle
+        type: CREATE_PARTICLES,
+        x: x,
+        y: y,
+        N: N
     };
 }
 
