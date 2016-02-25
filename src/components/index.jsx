@@ -15,15 +15,26 @@ class App extends Component {
             this.updateMousePos();
             this.props.startParticles();
         });
+        svg.on('touchstart', () => {
+            this.updateTouchPos();
+            this.props.startParticles();
+        });
         svg.on('mousemove', () => {
             this.updateMousePos();
         });
+        svg.on('touchmove', () => {
+            this.updateTouchPos();
+        });
         svg.on('mouseup', () => {
+            this.props.stopParticles();
+        });
+        svg.on('touchend', () => {
             this.props.stopParticles();
         });
         svg.on('mouseleave', () => {
             this.props.stopParticles();
         });
+
     }
 
     updateMousePos() {
@@ -31,7 +42,16 @@ class App extends Component {
         this.props.updateMousePos(x, y);
     }
 
+    updateTouchPos() {
+        let [x, y] = d3.touches(this.refs.svg)[0];
+        this.props.updateMousePos(x, y);
+    }
+
     render() {
+        let timestamp = new Date().getTime(),
+            lastTick = this.props.lastTick,
+            fps = 600000/(timestamp-lastTick);
+
         return (
             <div onMouseDown={e => this.props.startTicker()} style={{overflow: 'hidden'}}>
                  <Header />
@@ -41,7 +61,8 @@ class App extends Component {
                       style={{background: 'rgba(124, 224, 249, .3)'}}>
                      <Particles particles={this.props.particles} />
                  </svg>
-                 <Footer N={this.props.particles.length} />
+                 <Footer N={this.props.particles.length}
+                         fps={fps} />
              </div>
         );
     }

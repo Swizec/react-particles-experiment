@@ -10,7 +10,7 @@ const Gravity = 0.5,
 const initialState = {
     particles: [],
     particleIndex: 0,
-    particlesPerTick: 4,
+    particlesPerTick: 5,
     svgWidth: 800,
     svgHeight: 600,
     tickerStarted: false,
@@ -67,6 +67,7 @@ function particlesApp(state = initialState, action) {
                                           p.vector[1] += Gravity;
                                           return p;
                                       });
+
             return Object.assign({}, state, {
                 particles: movedParticles
             });
