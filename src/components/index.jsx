@@ -48,10 +48,6 @@ class App extends Component {
     }
 
     render() {
-        let timestamp = new Date().getTime(),
-            lastTick = this.props.lastTick,
-            fps = 600000/(timestamp-lastTick);
-
         return (
             <div onMouseDown={e => this.props.startTicker()} style={{overflow: 'hidden'}}>
                  <Header />
@@ -61,8 +57,7 @@ class App extends Component {
                       style={{background: 'rgba(124, 224, 249, .3)'}}>
                      <Particles particles={this.props.particles} />
                  </svg>
-                 <Footer N={this.props.particles.length}
-                         fps={fps} />
+                 <Footer N={this.props.particles.length} />
              </div>
         );
     }
