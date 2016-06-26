@@ -11,14 +11,37 @@ import Particle from './Particle';
 //        )}
 //    </g>
 //);
+/* const Particles = ({ particles }) => (
+   <Group>
+   {particles.map(particle =>
+   <Circle radius="1.8" x={particle.x} y={particle.y} key={particle.id} fill="black" />
+   )}
+   </Group>
+   ) */
 
-const Particles = ({ particles }) => (
-    <Group>
-        {particles.map(particle =>
-            <Circle radius="1.8" x={particle.x} y={particle.y} key={particle.id} fill="black" />
-         )}
-    </Group>
-)
+class Particles extends Component {
+
+    componentWillUpdate() {
+        console.time('flag1');
+    }
+
+    componentDidUpdate() {
+        console.timeEnd('flag1');
+    }
+
+    render() {
+        let { particles } = this.props;
+
+        return (
+            <Group>
+            {particles.map(particle =>
+                <Circle radius="1.8" x={particle.x} y={particle.y} key={particle.id} fill="black" />
+             )}
+            </Group>
+        );
+    }
+}
+
 
 Particles.propTypes = {
     particles: PropTypes.arrayOf(PropTypes.shape({

@@ -10,7 +10,7 @@ const Gravity = 0.5,
 const initialState = {
     particles: [],
     particleIndex: 0,
-    particlesPerTick: 10,
+    particlesPerTick: 1000,
     svgWidth: 800,
     svgHeight: 600,
     tickerStarted: false,

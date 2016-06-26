@@ -25,7 +25,8 @@ class AppContainer extends Component {
                 this.maybeCreateParticles();
                 store.dispatch(tickTime());
 
-                window.requestAnimationFrame(ticker);
+                //window.requestAnimationFrame(ticker);
+                setTimeout(ticker, 500);
             }
         };
 
