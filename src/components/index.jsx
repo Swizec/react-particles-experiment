@@ -2,6 +2,7 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import { select as d3Select, mouse as d3Mouse, touches as d3Touches } from 'd3';
+import { Stage, Layer } from 'react-konva';
 
 import Particles from './Particles';
 import Footer from './Footer';
@@ -9,7 +10,7 @@ import Header from './Header';
 
 class App extends Component {
     componentDidMount() {
-        let svg = d3Select(this.refs.svg);
+        let svg = d3Select(this.refs.svgWrap);
 
         svg.on('mousedown', () => {
             this.updateMousePos();
@@ -38,12 +39,12 @@ class App extends Component {
     }
 
     updateMousePos() {
-        let [x, y] = d3Mouse(this.refs.svg);
+        let [x, y] = d3Mouse(this.refs.svgWrap);
         this.props.updateMousePos(x, y);
     }
 
     updateTouchPos() {
-        let [x, y] = d3Touches(this.refs.svg)[0];
+        let [x, y] = d3Touches(this.refs.svgWrap)[0];
         this.props.updateMousePos(x, y);
     }
 
@@ -51,15 +52,19 @@ class App extends Component {
         return (
             <div onMouseDown={e => this.props.startTicker()} style={{overflow: 'hidden'}}>
                  <Header />
-                 <svg style={{width: this.props.svgWidth,
+                 <div style={{width: this.props.svgWidth,
                               height: this.props.svgHeight,
                               position: 'absolute',
                               top: '0px',
                               left: '0px',
                               background: 'rgba(124, 224, 249, .3)'}}
-                      ref="svg">
-                     <Particles particles={this.props.particles} />
-                 </svg>
+                      ref="svgWrap">
+                     <Stage width={this.props.svgWidth} height={this.props.svgHeight}>
+                         <Layer>
+                             <Particles particles={this.props.particles} />
+                         </Layer>
+                     </Stage>
+                 </div>
                  <Footer N={this.props.particles.length} />
              </div>
         );

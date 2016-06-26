@@ -1,6 +1,6 @@
 
 import React, { Component, PropTypes } from 'react';
-import { findDOMNode } from 'react-dom';
+import { Circle, Group } from 'react-konva';
 
 import Particle from './Particle';
 
@@ -13,12 +13,11 @@ import Particle from './Particle';
 //);
 
 const Particles = ({ particles }) => (
-    <g>
+    <Group>
         {particles.map(particle =>
-            <circle style={{transform: `translate3d(${particle.x}px, ${particle.y}px, 0px) scale(1)`}}
-            r="1.8"
-            key={particle.id} />)}
-    </g>
+            <Circle radius="1.8" x={particle.x} y={particle.y} key={particle.id} fill="black" />
+         )}
+    </Group>
 )
 
 Particles.propTypes = {
