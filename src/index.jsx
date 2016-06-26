@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import d3 from 'd3';
+import { select as d3Select } from 'd3';
 
 import particlesApp from './reducers';
 import AppContainer from './containers/AppContainer';
@@ -23,4 +23,4 @@ let onResize = function () {
 }
 onResize();
 
-d3.select(window).on('resize', onResize);
+d3Select(window).on('resize', onResize);

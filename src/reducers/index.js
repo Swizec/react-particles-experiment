@@ -1,16 +1,16 @@
 
 import { combineReducers } from 'redux';
 
-import d3 from 'd3';
+import { randomNormal } from 'd3';
 
 const Gravity = 0.5,
-      randNormal = d3.random.normal(0.3, 2),
-      randNormal2 = d3.random.normal(0.5, 1.8);
+      randNormal = randomNormal(0.3, 2),
+      randNormal2 = randomNormal(0.5, 1.8);
 
 const initialState = {
     particles: [],
     particleIndex: 0,
-    particlesPerTick: 5,
+    particlesPerTick: 10,
     svgWidth: 800,
     svgHeight: 600,
     tickerStarted: false,
