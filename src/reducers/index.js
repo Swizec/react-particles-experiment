@@ -9,8 +9,9 @@ const Gravity = 0.5,
 
 const initialState = {
     particles: [],
+    removedParticles: [],
     particleIndex: 0,
-    particlesPerTick: 100,
+    particlesPerTick: 200,
     svgWidth: 800,
     svgHeight: 600,
     tickerStarted: false,
@@ -56,10 +57,16 @@ function particlesApp(state = initialState, action) {
                 mousePos: [action.x, action.y]
             });
         case 'TIME_TICK':
+            let removedParticles = [];
             let {svgWidth, svgHeight} = state,
                 movedParticles = state.particles
-                                      .filter((p) =>
-                                          !(p.y > svgHeight || p.x < 0 || p.x > svgWidth))
+                                      .filter((p) => {
+                                          let remove = (p.y > svgHeight || p.x < 0 || p.x > svgWidth);
+                                          if (remove) {
+                                              removedParticles.push(p);
+                                          }
+                                          return !remove;
+                                      })
                                       .map((p) => {
                                           let [vx, vy] = p.vector;
                                           p.x += vx;
@@ -69,7 +76,8 @@ function particlesApp(state = initialState, action) {
                                       });
 
             return Object.assign({}, state, {
-                particles: movedParticles
+                particles: movedParticles,
+                removedParticles: removedParticles
             });
         case 'RESIZE_SCREEN':
             return Object.assign({}, state, {

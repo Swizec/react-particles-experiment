@@ -24,15 +24,12 @@ class Particles extends Component {
 
     _particles = {};
 
-    componentWillUpdate() {
-        console.time('flag1');
-    }
-
     componentDidUpdate() {
         let layer = this.refs.the_thing,
             particles = this.props.particles,
-            currentIds = new Map();
+            removedParticles = this.props.removedParticles;
 
+        // add or move particles
         for (let i = 0; i < particles.length; i++) {
             let { id, x, y } = particles[i];
 
@@ -53,20 +50,21 @@ class Particles extends Component {
                 this._particles[id] = c;
                 layer.add(c);
             }
-            //currentIds.set(id, true);
         };
 
-        /* this._particles.forEach((particle, id) => {
-           if (!currentIds.has(id)) {
-           // remove the particle
-           particle.remove();
-           this._particles.delete(id);
-           }
-           }); */
+        // remove removed particles
+        for (let i = 0; i < removedParticles.length; i++) {
+            let { id } = removedParticles[i];
+
+            if (this._particles[id]) {
+                this._particles[id].remove();
+                delete this._particles[id];
+            }
+        }
 
         layer.batchDraw();
 
-        console.timeEnd('flag1');
+        //console.timeEnd('flag1');
 
         /* {particles.map(particle =>
            <Circle radius="1.8" x={particle.x} y={particle.y} key={particle.id} fill="black" />

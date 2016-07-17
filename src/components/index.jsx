@@ -60,7 +60,8 @@ class App extends Component {
                               background: 'rgba(124, 224, 249, .3)'}}
                       ref="svgWrap">
                      <Stage width={this.props.svgWidth} height={this.props.svgHeight}>
-                         <Particles particles={this.props.particles} />
+                         <Particles particles={this.props.particles}
+                                    removedParticles={this.props.removedParticles} />
                      </Stage>
                  </div>
                  <Footer N={this.props.particles.length} />
