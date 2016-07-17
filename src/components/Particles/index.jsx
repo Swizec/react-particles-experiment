@@ -35,17 +35,20 @@ class Particles extends Component {
 
             if (this._particles[id]) {
                 // move particle
-                this._particles[id].position({
-                    x: x,
-                    y: y
-                });
+                this._particles[id]
+                    .position({
+                        x: x,
+                        y: y
+                    });
             }else{
                 // create new particle
                 let c = new Circle({
-                    radius: 1.8,
+                    radius: 1.4,
                     x: x,
                     y: y,
-                    fill: 'black'
+                    fill: 'black',
+                    transformsEnabled: 'position',
+                    listening: false
                 });
                 this._particles[id] = c;
                 layer.add(c);
@@ -73,7 +76,7 @@ class Particles extends Component {
 
     render() {
         return (
-            <FastLayer ref="the_thing">
+            <FastLayer ref="the_thing" transformsEnabled="position" listening="false">
 
             </FastLayer>
         );
