@@ -57,15 +57,10 @@ function particlesApp(state = initialState, action) {
                 mousePos: [action.x, action.y]
             });
         case 'TIME_TICK':
-            let removedParticles = [];
             let {svgWidth, svgHeight} = state,
                 movedParticles = state.particles
                                       .filter((p) => {
-                                          let remove = (p.y > svgHeight || p.x < 0 || p.x > svgWidth);
-                                          if (remove) {
-                                              removedParticles.push(p);
-                                          }
-                                          return !remove;
+                                          return !(p.y > svgHeight || p.x < 0 || p.x > svgWidth);
                                       })
                                       .map((p) => {
                                           let [vx, vy] = p.vector;
@@ -76,8 +71,7 @@ function particlesApp(state = initialState, action) {
                                       });
 
             return Object.assign({}, state, {
-                particles: movedParticles,
-                removedParticles: removedParticles
+                particles: movedParticles
             });
         case 'RESIZE_SCREEN':
             return Object.assign({}, state, {
