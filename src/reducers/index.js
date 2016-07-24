@@ -11,19 +11,21 @@ const initialState = {
     particles: [],
     removedParticles: [],
     particleIndex: 0,
-    particlesPerTick: 200,
+    particlesPerTick: 1000,
     svgWidth: 800,
     svgHeight: 600,
     tickerStarted: false,
     generateParticles: false,
-    mousePos: [null, null]
+    mousePos: [null, null],
+    lastFrameTime: null
 };
 
 function particlesApp(state = initialState, action) {
     switch (action.type) {
         case 'TICKER_STARTED':
             return Object.assign({}, state, {
-                tickerStarted: true
+                tickerStarted: true,
+                lastFrameTime: new Date()
             });
         case 'START_PARTICLES':
             return Object.assign({}, state, {
@@ -57,21 +59,25 @@ function particlesApp(state = initialState, action) {
                 mousePos: [action.x, action.y]
             });
         case 'TIME_TICK':
-            let {svgWidth, svgHeight} = state,
-                movedParticles = state.particles
+            let {svgWidth, svgHeight, lastFrameTime} = state,
+                newFrameTime = new Date(),
+                multiplier = (newFrameTime-lastFrameTime)/(1000/60)
+
+            let movedParticles = state.particles
                                       .filter((p) => {
                                           return !(p.y > svgHeight || p.x < 0 || p.x > svgWidth);
                                       })
                                       .map((p) => {
                                           let [vx, vy] = p.vector;
-                                          p.x += vx;
-                                          p.y += vy;
-                                          p.vector[1] += Gravity;
+                                          p.x += vx*multiplier;
+                                          p.y += vy*multiplier;
+                                          p.vector[1] += Gravity*multiplier;
                                           return p;
                                       });
 
             return Object.assign({}, state, {
-                particles: movedParticles
+                particles: movedParticles,
+                lastFrameTime: new Date()
             });
         case 'RESIZE_SCREEN':
             return Object.assign({}, state, {
