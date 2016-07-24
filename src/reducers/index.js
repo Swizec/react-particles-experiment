@@ -11,7 +11,7 @@ const initialState = {
     particles: [],
     removedParticles: [],
     particleIndex: 0,
-    particlesPerTick: 1000,
+    particlesPerTick: 3000,
     svgWidth: 800,
     svgHeight: 600,
     tickerStarted: false,
