@@ -5,21 +5,6 @@ import { Circle } from 'konva';
 
 import Particle from './Particle';
 
-//const Particles = ({ particles }) => (
-//    <g>{particles.map(particle =>
-//        <Particle key={particle.id}
-//                  {...particle} />
-//        )}
-//    </g>
-//);
-/* const Particles = ({ particles }) => (
-   <Group>
-   {particles.map(particle =>
-   <Circle radius="1.8" x={particle.x} y={particle.y} key={particle.id} fill="black" />
-   )}
-   </Group>
-   ) */
-
 class Particles extends Component {
 
     _particles = {};
@@ -35,9 +20,6 @@ class Particles extends Component {
     drawParticle(particle) {
         let { x, y } = particle;
 
-        //this.context.beginPath();
-        //this.context.arc(x, y, 1, 0, 2*Math.PI, false);
-        //this.context.stroke();
         this.context.drawImage(this.sprite, 0, 0, 128, 128, x, y, 35, 35);
     }
 
