@@ -1,17 +1,17 @@
 
 import { combineReducers } from 'redux';
 
-import { randomNormal } from 'd3';
+import { randomNormal, range, randomUniform } from 'd3';
 
-const Gravity = 0.5,
+const Gravity = 0.3,
       randNormal = randomNormal(0.3, 2),
       randNormal2 = randomNormal(0.5, 1.8);
 
 const initialState = {
     particles: [],
-    removedParticles: [],
     particleIndex: 0,
-    particlesPerTick: 3000,
+    particlesPerTick: 1000,
+    charges: [],
     svgWidth: 800,
     svgHeight: 600,
     tickerStarted: false,
@@ -19,6 +19,14 @@ const initialState = {
     mousePos: [null, null],
     lastFrameTime: null
 };
+
+const _generateCharges = (N, width, height) => (
+    range(N).map(_ => ({
+        x: randomUniform(.2*width, .8*width)(),
+        y: randomUniform(.2*height, .8*height)(),
+        strength: randomUniform(1000, 10000)()
+    }))
+);
 
 function particlesApp(state = initialState, action) {
     switch (action.type) {
@@ -45,7 +53,7 @@ function particlesApp(state = initialState, action) {
                                 y: action.y};
 
                 particle.vector = [particle.id%2 ? -randNormal() : randNormal(),
-                                   -randNormal2()*3.3];
+                                   -randNormal2()*3];
 
                 newParticles.unshift(particle);
             }
@@ -61,7 +69,7 @@ function particlesApp(state = initialState, action) {
         case 'TIME_TICK':
             let {svgWidth, svgHeight, lastFrameTime} = state,
                 newFrameTime = new Date(),
-                multiplier = (newFrameTime-lastFrameTime)/(1000/60)
+                multiplier = (newFrameTime-lastFrameTime)/(1000/60);
 
             let movedParticles = state.particles
                                       .filter((p) => {
@@ -69,8 +77,21 @@ function particlesApp(state = initialState, action) {
                                       })
                                       .map((p) => {
                                           let [vx, vy] = p.vector;
+
                                           p.x += vx*multiplier;
                                           p.y += vy*multiplier;
+
+                                          state.charges.forEach(charge => {
+                                              let dx = p.x - charge.x,
+                                                  dy = p.y - charge.y,
+                                                  r2 = dx*dx + dy*dy,
+                                                  rX = (dx < 0 ? -(1/r2) : 1/r2)*charge.strength,
+                                                  rY = (dy < 0 ? -(1/r2) : 1/r2)*charge.strength;
+
+                                              p.x += rX;
+                                              p.y += rY;
+                                          });
+
                                           p.vector[1] += Gravity*multiplier;
                                           return p;
                                       });
@@ -82,7 +103,8 @@ function particlesApp(state = initialState, action) {
         case 'RESIZE_SCREEN':
             return Object.assign({}, state, {
                 svgWidth: action.width,
-                svgHeight: action.height
+                svgHeight: action.height,
+                charges: _generateCharges(4, state.svgWidth, state.svgHeight)
             });
         default:
             return state;

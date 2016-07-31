@@ -3,8 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import { Group, FastLayer } from 'react-konva';
 import { Circle } from 'konva';
 
-import Particle from './Particle';
-
 class Particles extends Component {
 
     _particles = {};
@@ -20,7 +18,7 @@ class Particles extends Component {
     drawParticle(particle) {
         let { x, y } = particle;
 
-        this.context.drawImage(this.sprite, 0, 0, 128, 128, x, y, 35, 35);
+        this.context.drawImage(this.sprite, 0, 0, 128, 128, x, y, 15, 15);
     }
 
     componentDidUpdate() {

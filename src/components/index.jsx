@@ -2,7 +2,7 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import { select as d3Select, mouse as d3Mouse, touches as d3Touches } from 'd3';
-import { Stage, Layer } from 'react-konva';
+import { Stage, Layer, Circle, FastLayer } from 'react-konva';
 
 import Particles from './Particles';
 import Footer from './Footer';
@@ -60,8 +60,15 @@ class App extends Component {
                               background: 'rgba(124, 224, 249, .3)'}}
                       ref="svgWrap">
                      <Stage width={this.props.svgWidth} height={this.props.svgHeight}>
+                         <FastLayer>
+                             {this.props.charges.map((charge, i) => (
+                                 <Circle x={charge.x} y={charge.y} radius={3} fill="black" key={i} />
+                             ))}
+                         </FastLayer>
                          <Particles particles={this.props.particles} />
+
                      </Stage>
+
                  </div>
                  <Footer N={this.props.particles.length} />
              </div>
