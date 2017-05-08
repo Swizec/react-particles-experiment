@@ -1,5 +1,5 @@
 
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { select as d3Select, mouse as d3Mouse, touches as d3Touches } from 'd3';
 
@@ -66,13 +66,5 @@ class App extends Component {
     }
 }
 
-App.propTypes = {
-    svgWidth: PropTypes.number.isRequired,
-    svgHeight: PropTypes.number.isRequired,
-    startTicker: PropTypes.func.isRequired,
-    startParticles: PropTypes.func.isRequired,
-    stopParticles: PropTypes.func.isRequired,
-    updateMousePos: PropTypes.func.isRequired
-};
 
 export default App;
