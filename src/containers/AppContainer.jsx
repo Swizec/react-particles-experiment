@@ -1,6 +1,7 @@
 
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import App from '../components';
 import { tickTime, tickerStarted, startParticles, stopParticles, updateMousePos, createParticles } from '../actions';
@@ -78,7 +79,7 @@ class AppContainer extends Component {
 };
 
 AppContainer.contextTypes = {
-    store: React.PropTypes.object
+    store: PropTypes.object
 };
 
 export default AppContainer;

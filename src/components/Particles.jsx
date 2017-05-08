@@ -1,9 +1,7 @@
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Group, FastLayer } from 'react-konva';
 import { Circle } from 'konva';
-
-import Particle from './Particle';
 
 class Particles extends Component {
 
@@ -14,7 +12,7 @@ class Particles extends Component {
         this.context = this.canvas.getContext('2d');
 
         this.sprite = new Image();
-        this.sprite.src = 'http://1.bp.blogspot.com/-sgRdkb1Eu0M/UioQc6yWCXI/AAAAAAAACkE/3lkhQhiFAcA/s1600/minion_icon_image_picfishblogspotcom+%252814%2529.png';
+        this.sprite.src = 'http://i.imgur.com/m5l6lhr.png';
     }
 
     drawParticle(particle) {
@@ -47,13 +45,5 @@ class Particles extends Component {
     }
 }
 
-
-Particles.propTypes = {
-    particles: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        x: PropTypes.number.isRequired,
-        y: PropTypes.number.isRequired
-    }).isRequired).isRequired
-};
 
 export default Particles;
