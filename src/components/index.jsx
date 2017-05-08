@@ -1,6 +1,5 @@
 
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { select as d3Select, mouse as d3Mouse, touches as d3Touches } from 'd3';
 
 import Particles from './Particles';

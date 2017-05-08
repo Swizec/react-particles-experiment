@@ -68,10 +68,10 @@ class AppContainer extends Component {
 
         return (
             <App {...state}
-                 startTicker={::this.startTicker}
-                 startParticles={::this.startParticles}
-                 stopParticles={::this.stopParticles}
-                 updateMousePos={::this.updateMousePos}
+                 startTicker={() => this.startTicker()}
+                 startParticles={() = > this.startParticles()}
+                 stopParticles={() = > this.stopParticles()}
+                 updateMousePos={() = > this.updateMousePos()}
             />
         );
     }
