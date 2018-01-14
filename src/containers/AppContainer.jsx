@@ -1,17 +1,21 @@
+import { connect } from "react-redux";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
-import App from '../components';
-import { tickTime, tickerStarted, startParticles, stopParticles, updateMousePos, createParticles } from '../actions';
+import App from "../components";
+import {
+    tickTime,
+    tickerStarted,
+    startParticles,
+    stopParticles,
+    updateMousePos,
+    createParticles
+} from "../actions";
 
 class AppContainer extends Component {
     componentDidMount() {
         const { store } = this.context;
-        this.unsubscribe = store.subscribe(() =>
-            this.forceUpdate()
-        );
+        this.unsubscribe = store.subscribe(() => this.forceUpdate());
     }
 
     componentWillUnmount() {
@@ -68,15 +72,16 @@ class AppContainer extends Component {
         const state = store.getState();
 
         return (
-            <App {...state}
-                 startTicker={::this.startTicker}
-                 startParticles={::this.startParticles}
-                 stopParticles={::this.stopParticles}
-                 updateMousePos={::this.updateMousePos}
+            <App
+                {...state}
+                startTicker={this.startTicker.bind(this)}
+                startParticles={this.startParticles.bind(this)}
+                stopParticles={this.stopParticles.bind(this)}
+                updateMousePos={this.updateMousePos.bind(this)}
             />
         );
     }
-};
+}
 
 AppContainer.contextTypes = {
     store: PropTypes.object
