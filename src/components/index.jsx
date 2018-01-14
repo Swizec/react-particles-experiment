@@ -1,39 +1,37 @@
+import React, { Component } from "react";
+import { select as d3Select, mouse as d3Mouse, touches as d3Touches } from "d3";
 
-import React, { Component } from 'react';
-import { select as d3Select, mouse as d3Mouse, touches as d3Touches } from 'd3';
-
-import Particles from './Particles';
-import Footer from './Footer';
-import Header from './Header';
+import Particles from "./Particles";
+import Footer from "./Footer";
+import Header from "./Header";
 
 class App extends Component {
     componentDidMount() {
         let svg = d3Select(this.refs.svg);
 
-        svg.on('mousedown', () => {
+        svg.on("mousedown", () => {
             this.updateMousePos();
             this.props.startParticles();
         });
-        svg.on('touchstart', () => {
+        svg.on("touchstart", () => {
             this.updateTouchPos();
             this.props.startParticles();
         });
-        svg.on('mousemove', () => {
+        svg.on("mousemove", () => {
             this.updateMousePos();
         });
-        svg.on('touchmove', () => {
+        svg.on("touchmove", () => {
             this.updateTouchPos();
         });
-        svg.on('mouseup', () => {
+        svg.on("mouseup", () => {
             this.props.stopParticles();
         });
-        svg.on('touchend', () => {
+        svg.on("touchend", () => {
             this.props.stopParticles();
         });
-        svg.on('mouseleave', () => {
+        svg.on("mouseleave", () => {
             this.props.stopParticles();
         });
-
     }
 
     updateMousePos() {
@@ -48,22 +46,28 @@ class App extends Component {
 
     render() {
         return (
-            <div onMouseDown={e => this.props.startTicker()} style={{overflow: 'hidden'}}>
-                 <Header />
-                 <svg style={{width: this.props.svgWidth,
-                              height: this.props.svgHeight,
-                              position: 'absolute',
-                              top: '0px',
-                              left: '0px',
-                              background: 'rgba(124, 224, 249, .3)'}}
-                      ref="svg">
-                     <Particles particles={this.props.particles} />
-                 </svg>
-                 <Footer N={this.props.particles.length} />
-             </div>
+            <div
+                onMouseDown={e => this.props.startTicker()}
+                style={{ overflow: "hidden" }}
+            >
+                <Header />
+                <svg
+                    style={{
+                        width: this.props.svgWidth,
+                        height: this.props.svgHeight,
+                        position: "absolute",
+                        top: "0px",
+                        left: "0px",
+                        background: "rgba(124, 224, 249, .3)"
+                    }}
+                    ref="svg"
+                >
+                    <Particles particles={this.props.particles} />
+                </svg>
+                <Footer N={this.props.particles.length} />
+            </div>
         );
     }
 }
-
 
 export default App;
