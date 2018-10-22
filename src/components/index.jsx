@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { select as d3Select, mouse as d3Mouse, touches as d3Touches } from "d3";
-import { Stage, Layer } from "react-konva";
+import { Stage } from "react-konva";
 
 import Particles from "./Particles";
 import Footer from "./Footer";

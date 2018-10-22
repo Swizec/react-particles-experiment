@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Group, FastLayer } from "react-konva";
-import { Circle } from "konva";
+import { FastLayer } from "react-konva";
 
 class Particles extends Component {
     _particles = {};

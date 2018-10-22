@@ -1,5 +1,3 @@
-import { combineReducers } from "redux";
-
 import { randomNormal } from "d3";
 
 const Gravity = 0.5,
