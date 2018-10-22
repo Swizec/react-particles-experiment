@@ -8,7 +8,6 @@ class Particles extends Component {
     componentDidMount() {
         this.canvas = this.refs.layer.canvas._canvas;
         this.canvasContext = this.canvas.getContext("2d");
-        console.log(this.canvasContext);
 
         this.sprite = new Image();
         this.sprite.src = "http://i.imgur.com/m5l6lhr.png";
@@ -23,7 +22,7 @@ class Particles extends Component {
     componentDidUpdate() {
         let particles = this.props.particles;
 
-        console.time("drawing");
+        // console.time("drawing");
         this.canvasContext.clearRect(
             0,
             0,
@@ -37,7 +36,7 @@ class Particles extends Component {
         for (let i = 0; i < particles.length; i++) {
             this.drawParticle(particles[i]);
         }
-        console.timeEnd("drawing");
+        // console.timeEnd("drawing");
     }
 
     render() {

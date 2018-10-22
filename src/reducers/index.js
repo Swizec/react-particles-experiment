@@ -1,11 +1,10 @@
+import { combineReducers } from "redux";
 
-import { combineReducers } from 'redux';
-
-import { randomNormal } from 'd3';
+import { randomNormal } from "d3";
 
 const Gravity = 0.5,
-      randNormal = randomNormal(0.3, 2),
-      randNormal2 = randomNormal(0.5, 1.8);
+    randNormal = randomNormal(0.3, 2),
+    randNormal2 = randomNormal(0.5, 1.8);
 
 const initialState = {
     particles: [],
@@ -14,7 +13,7 @@ const initialState = {
     particlesPerTick: 3000,
     svgWidth: 800,
     svgHeight: 600,
-    tickerStarted: false,
+    isTickerStarted: false,
     generateParticles: false,
     mousePos: [null, null],
     lastFrameTime: null
@@ -22,64 +21,74 @@ const initialState = {
 
 function particlesApp(state = initialState, action) {
     switch (action.type) {
-        case 'TICKER_STARTED':
+        case "TICKER_STARTED":
             return Object.assign({}, state, {
-                tickerStarted: true,
+                isTickerStarted: true,
                 lastFrameTime: new Date()
             });
-        case 'START_PARTICLES':
+        case "START_PARTICLES":
             return Object.assign({}, state, {
                 generateParticles: true
             });
-        case 'STOP_PARTICLES':
+        case "STOP_PARTICLES":
             return Object.assign({}, state, {
                 generateParticles: false
             });
-        case 'CREATE_PARTICLES':
-            let newParticles = state.particles.slice(0),
-                i;
-
-            for (i = 0; i < action.N; i++) {
-                let particle = {id: state.particleIndex+i,
-                                x: action.x,
-                                y: action.y};
-
-                particle.vector = [particle.id%2 ? -randNormal() : randNormal(),
-                                   -randNormal2()*3.3];
-
-                newParticles.unshift(particle);
-            }
-
-            return Object.assign({}, state, {
-                particles: newParticles,
-                particleIndex: state.particleIndex+i+1
-            });
-        case 'UPDATE_MOUSE_POS':
+        case "UPDATE_MOUSE_POS":
             return Object.assign({}, state, {
                 mousePos: [action.x, action.y]
             });
-        case 'TIME_TICK':
-            let {svgWidth, svgHeight, lastFrameTime} = state,
+        case "TIME_TICK":
+            let {
+                    svgWidth,
+                    svgHeight,
+                    lastFrameTime,
+                    generateParticles,
+                    particlesPerTick,
+                    particleIndex,
+                    mousePos
+                } = state,
                 newFrameTime = new Date(),
-                multiplier = (newFrameTime-lastFrameTime)/(1000/60)
+                multiplier = (newFrameTime - lastFrameTime) / (1000 / 60),
+                newParticles = state.particles.slice(0);
 
-            let movedParticles = state.particles
-                                      .filter((p) => {
-                                          return !(p.y > svgHeight || p.x < 0 || p.x > svgWidth);
-                                      })
-                                      .map((p) => {
-                                          let [vx, vy] = p.vector;
-                                          p.x += vx*multiplier;
-                                          p.y += vy*multiplier;
-                                          p.vector[1] += Gravity*multiplier;
-                                          return p;
-                                      });
+            if (generateParticles) {
+                for (let i = 0; i < particlesPerTick; i++) {
+                    let particle = {
+                        id: state.particleIndex + i,
+                        x: mousePos[0],
+                        y: mousePos[1]
+                    };
+
+                    particle.vector = [
+                        particle.id % 2 ? -randNormal() : randNormal(),
+                        -randNormal2() * 3.3
+                    ];
+
+                    newParticles.unshift(particle);
+                }
+
+                particleIndex = particleIndex + particlesPerTick + 1;
+            }
+
+            let movedParticles = newParticles
+                .filter(p => {
+                    return !(p.y > svgHeight || p.x < 0 || p.x > svgWidth);
+                })
+                .map(p => {
+                    let [vx, vy] = p.vector;
+                    p.x += vx * multiplier;
+                    p.y += vy * multiplier;
+                    p.vector[1] += Gravity * multiplier;
+                    return p;
+                });
 
             return Object.assign({}, state, {
                 particles: movedParticles,
-                lastFrameTime: new Date()
+                lastFrameTime: new Date(),
+                particleIndex
             });
-        case 'RESIZE_SCREEN':
+        case "RESIZE_SCREEN":
             return Object.assign({}, state, {
                 svgWidth: action.width,
                 svgHeight: action.height
