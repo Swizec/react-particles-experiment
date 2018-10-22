@@ -8,8 +8,8 @@ const Gravity = 0.5,
 
 const initialState = {
     particles: [],
-    removedParticles: [],
     particleIndex: 0,
+    removedParticles: [],
     particlesPerTick: 3000,
     svgWidth: 800,
     svgHeight: 600,
@@ -19,7 +19,7 @@ const initialState = {
     lastFrameTime: null
 };
 
-function particlesApp(state = initialState, action) {
+function appReducer(state, action) {
     switch (action.type) {
         case "TICKER_STARTED":
             return Object.assign({}, state, {
@@ -38,6 +38,18 @@ function particlesApp(state = initialState, action) {
             return Object.assign({}, state, {
                 mousePos: [action.x, action.y]
             });
+        case "RESIZE_SCREEN":
+            return Object.assign({}, state, {
+                svgWidth: action.width,
+                svgHeight: action.height
+            });
+        default:
+            return state;
+    }
+}
+
+function particlesReducer(state, action) {
+    switch (action.type) {
         case "TIME_TICK":
             let {
                     svgWidth,
@@ -83,19 +95,24 @@ function particlesApp(state = initialState, action) {
                     return p;
                 });
 
-            return Object.assign({}, state, {
+            return {
                 particles: movedParticles,
                 lastFrameTime: new Date(),
                 particleIndex
-            });
-        case "RESIZE_SCREEN":
-            return Object.assign({}, state, {
-                svgWidth: action.width,
-                svgHeight: action.height
-            });
+            };
         default:
-            return state;
+            return {
+                particles: state.particles,
+                lastFrameTime: state.lastFrameTime,
+                particleIndex: state.particleIndex
+            };
     }
 }
 
-export default particlesApp;
+// Manually combineReducers
+export default function(state = initialState, action) {
+    return {
+        ...appReducer(state, action),
+        ...particlesReducer(state, action)
+    };
+}
