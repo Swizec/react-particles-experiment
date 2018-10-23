@@ -1,5 +1,5 @@
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 const Header = ({ N }) => (
     <div style={{position: 'absolute'}} className="container">

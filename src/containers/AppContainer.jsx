@@ -1,84 +1,73 @@
+import { connect } from "react-redux";
+import React, { Component } from "react";
+import * as d3 from "d3";
 
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
-
-import App from '../components';
-import { tickTime, tickerStarted, startParticles, stopParticles, updateMousePos, createParticles } from '../actions';
+import App from "../components";
+import {
+    tickTime,
+    tickerStarted,
+    startParticles,
+    stopParticles,
+    updateMousePos,
+    createParticles
+} from "../actions";
 
 class AppContainer extends Component {
-    componentDidMount() {
-        const { store } = this.context;
-        this.unsubscribe = store.subscribe(() =>
-            this.forceUpdate()
-        );
-    }
+    startTicker = () => {
+        const { isTickerStarted } = this.props;
 
-    componentWillUnmount() {
-        this.unsubscribe();
-    }
-
-    startTicker() {
-        const { store } = this.context;
-
-        let ticker = () => {
-            if (store.getState().tickerStarted) {
-                this.maybeCreateParticles();
-                store.dispatch(tickTime());
-
-                window.requestAnimationFrame(ticker);
-                //setTimeout(ticker, 500);
-            }
-        };
-
-        if (!store.getState().tickerStarted) {
+        if (!isTickerStarted) {
             console.log("Starting ticker");
-            store.dispatch(tickerStarted());
-            ticker();
+            this.props.tickerStarted();
+            d3.timer(this.props.tickTime);
         }
-    }
-
-    startParticles() {
-        const { store } = this.context;
-        store.dispatch(startParticles());
-    }
-
-    stopParticles() {
-        const { store } = this.context;
-        store.dispatch(stopParticles());
-    }
-
-    updateMousePos(x, y) {
-        const { store } = this.context;
-        store.dispatch(updateMousePos(x, y));
-    }
-
-    maybeCreateParticles() {
-        const { store } = this.context;
-        const state = store.getState();
-        const [x, y] = state.mousePos;
-
-        if (state.generateParticles) {
-            store.dispatch(createParticles(state.particlesPerTick, x, y));
-        }
-    }
+    };
 
     render() {
-        const { store } = this.context;
-        const state = store.getState();
+        const { svgWidth, svgHeight, particles } = this.props;
 
         return (
-            <App {...state}
-                 startTicker={::this.startTicker}
-                 startParticles={::this.startParticles}
-                 stopParticles={::this.stopParticles}
-                 updateMousePos={::this.updateMousePos}
+            <App
+                svgWidth={svgWidth}
+                svgHeight={svgHeight}
+                particles={particles}
+                startTicker={this.startTicker}
+                startParticles={this.props.startParticles}
+                stopParticles={this.props.stopParticles}
+                updateMousePos={this.props.updateMousePos}
             />
         );
     }
+}
+
+const mapStateToProps = ({
+    generateParticles,
+    mousePos,
+    particlesPerTick,
+    isTickerStarted,
+    svgWidth,
+    svgHeight,
+    particles
+}) => ({
+    generateParticles,
+    mousePos,
+    particlesPerTick,
+    isTickerStarted,
+    svgWidth,
+    svgHeight,
+    particles
+});
+
+const mapDispatchToProps = {
+    tickTime,
+    tickerStarted,
+    startParticles,
+    stopParticles,
+    updateMousePos,
+    createParticles
 };
 
-AppContainer.contextTypes = {
-    store: React.PropTypes.object
-};
-
-export default AppContainer;
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AppContainer);
