@@ -7,7 +7,6 @@ const Gravity = 0.5,
 const initialState = {
     particles: [],
     particleIndex: 0,
-    removedParticles: [],
     particlesPerTick: 3000,
     svgWidth: 800,
     svgHeight: 600,
@@ -39,8 +38,7 @@ function appReducer(state, action) {
         case "RESIZE_SCREEN":
             return Object.assign({}, state, {
                 svgWidth: action.width,
-                svgHeight: action.height,
-                charges: _generateCharges(4, state.svgWidth, state.svgHeight)
+                svgHeight: action.height
             });
         default:
             return state;

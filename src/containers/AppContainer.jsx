@@ -8,8 +8,7 @@ import {
     tickerStarted,
     startParticles,
     stopParticles,
-    updateMousePos,
-    createParticles
+    updateMousePos
 } from "../actions";
 
 class AppContainer extends Component {
@@ -63,8 +62,7 @@ const mapDispatchToProps = {
     tickerStarted,
     startParticles,
     stopParticles,
-    updateMousePos,
-    createParticles
+    updateMousePos
 };
 
 export default connect(

@@ -7,8 +7,10 @@ import Footer from "./Footer";
 import Header from "./Header";
 
 class App extends Component {
+    svgWrap = React.createRef();
+
     componentDidMount() {
-        let svg = d3Select(this.refs.svgWrap);
+        let svg = d3Select(this.svgWrap.current);
 
         svg.on("mousedown", () => {
             this.updateMousePos();
@@ -36,12 +38,12 @@ class App extends Component {
     }
 
     updateMousePos() {
-        let [x, y] = d3Mouse(this.refs.svgWrap);
+        let [x, y] = d3Mouse(this.svgWrap.current);
         this.props.updateMousePos(x, y);
     }
 
     updateTouchPos() {
-        let [x, y] = d3Touches(this.refs.svgWrap)[0];
+        let [x, y] = d3Touches(this.svgWrap.current)[0];
         this.props.updateMousePos(x, y);
     }
 
@@ -61,7 +63,7 @@ class App extends Component {
                         left: "0px",
                         background: "rgba(124, 224, 249, .3)"
                     }}
-                    ref="svgWrap"
+                    ref={this.svgWrap}
                 >
                     <Stage
                         width={this.props.svgWidth}

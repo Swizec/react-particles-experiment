@@ -3,9 +3,10 @@ import { FastLayer } from "react-konva";
 
 class Particles extends Component {
     _particles = {};
+    layerRef = React.createRef();
 
     componentDidMount() {
-        this.canvas = this.refs.layer.canvas._canvas;
+        this.canvas = this.layerRef.current.canvas._canvas;
         this.canvasContext = this.canvas.getContext("2d");
 
         this.sprite = new Image();
@@ -41,7 +42,7 @@ class Particles extends Component {
     render() {
         return (
             <FastLayer
-                ref="layer"
+                ref={this.layerRef}
                 transformsEnabled="position"
                 listening="false"
             />

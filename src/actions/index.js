@@ -18,15 +18,6 @@ export function tickerStarted() {
     };
 }
 
-export function createParticles(N, x, y) {
-    return {
-        type: CREATE_PARTICLES,
-        x: x,
-        y: y,
-        N: N
-    };
-}
-
 export function startParticles() {
     return {
         type: START_PARTICLES
