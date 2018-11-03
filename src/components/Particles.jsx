@@ -40,13 +40,7 @@ class Particles extends Component {
     }
 
     render() {
-        return (
-            <FastLayer
-                ref={this.layerRef}
-                transformsEnabled="position"
-                listening="false"
-            />
-        );
+        return <FastLayer ref={this.layerRef} listening="false" />;
     }
 }
 
